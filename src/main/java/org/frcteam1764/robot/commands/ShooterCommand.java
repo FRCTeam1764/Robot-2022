@@ -20,7 +20,7 @@ public class ShooterCommand extends CommandBase {
     this.shooterTopRoller = shooterTopRoller;
     this.shooterState = shooterState;
     this.shooterTopRollerSpeed = shooterTopRollerSpeed;
-    this.shooterRatio = 4.8;
+    this.shooterRatio = 3;
     addRequirements(shooter);
   }
 

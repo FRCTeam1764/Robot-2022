@@ -34,11 +34,11 @@ public class SwerveRobotContainer {
         configurePilotButtonBindings();
         configureCoPilotButtonBindings();
 
-        CommandScheduler.getInstance().setDefaultCommand(robotSubsystems.drivetrain, new SwerveDriveCommand(robotSubsystems.drivetrain, getPilotDriveForwardAxis(), getPilotDriveStrafeAxis(), getPilotDriveRotationAxis(), this.robotState));
+        // CommandScheduler.getInstance().setDefaultCommand(robotSubsystems.drivetrain, new SwerveDriveCommand(robotSubsystems.drivetrain, getPilotDriveForwardAxis(), getPilotDriveStrafeAxis(), getPilotDriveRotationAxis(), this.robotState));
     }
 
     private void getTrajectories() {
-        robotState.trajectories = Trajectories.getTrajectories();
+        // robotState.trajectories = Trajectories.getTrajectories();
     }
 
     private void configurePilotButtonBindings() {
@@ -53,14 +53,14 @@ public class SwerveRobotContainer {
                 robotSubsystems.drivetrain.setDrivetrainMaxOutput(robotState.drivetrain.getDriveSpeed());
             }
         );
-        primaryController.getAButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_A));
-        primaryController.getBButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_B));
-        primaryController.getXButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_X));
-        primaryController.getYButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_Y));
-        primaryController.getLeftBumperButton().whenPressed(() -> robotState.drivetrain.setManeuver("barrelroll"));
-        primaryController.getRightBumperButton().whenPressed(() -> robotState.drivetrain.setManeuver("reversebarrelroll"));
-        primaryController.getRightJoystickButton().whenPressed(() -> robotState.drivetrain.setManeuver("spin"));
-        primaryController.getDPadButton(Direction.DOWN).whenPressed(() -> robotState.drivetrain.toggleIsFieldOriented());
+        // primaryController.getAButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_A));
+        // primaryController.getBButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_B));
+        // primaryController.getXButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_X));
+        // primaryController.getYButton().whenPressed(() -> robotState.drivetrain.setTargetTurningAngle(ControllerConstants.CRITICAL_ANGLE_Y));
+        // primaryController.getLeftBumperButton().whenPressed(() -> robotState.drivetrain.setManeuver("barrelroll"));
+        // primaryController.getRightBumperButton().whenPressed(() -> robotState.drivetrain.setManeuver("reversebarrelroll"));
+        // primaryController.getRightJoystickButton().whenPressed(() -> robotState.drivetrain.setManeuver("spin"));
+        // primaryController.getDPadButton(Direction.DOWN).whenPressed(() -> robotState.drivetrain.toggleIsFieldOriented());
         // primaryController.getLeftTriggerAxis().getButton(.5).whileHeld(new IntakeBallCommand(robotSubsystems.intake, 0.6, robotSubsystems.conveyor, 1, robotSubsystems.elevator , -0.6, robotState.intake, false));
         // primaryController.getLeftBumperButton().whenPressed(() -> {
         //     robotSubsystems.conveyor.conveyorOn(1, true);
@@ -72,7 +72,12 @@ public class SwerveRobotContainer {
         //     // robotSubsystems.elevator.elevatorOff();
         //     // robotSubsystems.intake.intakeOff();
         // });
-        primaryController.getRightTriggerAxis().getButton(.5).whileHeld(new DistanceShooterCommand(robotSubsystems.shooter, robotSubsystems.shooterTopRoller, getRobotState().limelight, robotState.shooter));
+        // primaryController.getRightTriggerAxis().getButton(.5).whileHeld(new DistanceShooterCommand(robotSubsystems.shooter, robotSubsystems.shooterTopRoller, getRobotState().limelight, robotState.shooter));
+        primaryController.getRightBumperButton().toggleWhenPressed(new ShooterCommand(robotSubsystems.shooter, robotSubsystems.shooterTopRoller, 3000, robotState.shooter));
+        primaryController.getRightTriggerAxis().getButton(.5).whileHeld(new FeederCommand(robotSubsystems.conveyor, 1, robotSubsystems.elevator, -0.9, robotState.shooter));
+
+        primaryController.getLeftBumperButton().whileHeld(new NonOverrideFeederCommand(robotSubsystems.conveyor, 1, robotSubsystems.elevator, -0.6, robotState.shooter));//Indexing
+        primaryController.getLeftTriggerAxis().getButton(.5).whileHeld(new IntakeBallCommand(robotSubsystems.intake, 0.6, robotSubsystems.conveyor, 1, robotSubsystems.elevator , -0.6, robotState.intake, false));//intake
     }
 
     private void configureCoPilotButtonBindings() {
