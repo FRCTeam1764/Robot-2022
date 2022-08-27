@@ -121,10 +121,10 @@ public class SwerveDriveCommand extends CommandBase {
         double limelightXOffset = limelight.getTargetXOffset();
         double limelightYOffset = limelight.getTargetYOffset();
         double limelightUpperYTolerance = 3.0;
-        double limelightLowerYTolerance = -17.5;//-17.5
+        double limelightLowerYTolerance = -17.0;//-17.5
         double targetOffset = 0.2;
         double xScale = 4;
-        double targetOffsetScale = 0.2;
+        double targetOffsetScale = 0.4;
         double targetDeltaScale = Math.abs(limelightLowerYTolerance - limelightYOffset)*targetOffsetScale/Math.abs(limelightLowerYTolerance - limelightUpperYTolerance);
         double xDeltaScale = Math.abs(limelightLowerYTolerance - limelightYOffset)*xScale/Math.abs(limelightLowerYTolerance - limelightUpperYTolerance); // plus or minus 4 close and plus or minus 2 far = 2. Y delta is between 0 and 6.
         double limelightUpperXTolerance =  1.5 + xDeltaScale + targetOffset + targetDeltaScale;

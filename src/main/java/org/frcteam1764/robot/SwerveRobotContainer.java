@@ -76,17 +76,18 @@ public class SwerveRobotContainer {
     }
 
     private void configureCoPilotButtonBindings() {
-        secondaryController.getRightBumperButton().toggleWhenPressed(new ShooterCommand(robotSubsystems.shooter, robotSubsystems.shooterTopRoller, 5000, robotState.shooter));
-        secondaryController.getRightTriggerAxis().getButton(.5).whileHeld(new FeederCommand(robotSubsystems.conveyor, 1, robotSubsystems.elevator, -0.9, robotState.shooter));
+        secondaryController.getRightBumperButton().whileHeld(new ShooterCommand(robotSubsystems.shooter, robotSubsystems.shooterTopRoller, 5000, robotState.shooter));
+        // secondaryController.getRightTriggerAxis().getButton(.5).whileHeld(new FeederCommand(robotSubsystems.conveyor, 1, robotSubsystems.elevator, -0.9, robotState.shooter));
 
         secondaryController.getLeftBumperButton().whileHeld(new NonOverrideFeederCommand(robotSubsystems.conveyor, 1, robotSubsystems.elevator, -0.6, robotState.shooter));//Indexing
-        secondaryController.getLeftTriggerAxis().getButton(.5).whileHeld(new IntakeBallCommand(robotSubsystems.intake, 0.6, robotSubsystems.conveyor, 1, robotSubsystems.elevator , -0.6, robotState.intake, false));//intake
+        secondaryController.getLeftTriggerAxis().getButton(.5).whileHeld(new IntakeBallCommand(robotSubsystems.intake, 1, robotSubsystems.conveyor, 1, robotSubsystems.elevator , -0.6, robotState.intake, false));//intake
         
         // secondaryController.getYButton().whileHeld(new IntakeBallCommand(robotSubsystems.intake, 0.8, robotSubsystems.conveyor, 1,robotSubsystems.elevator, -0.5, robotState.intake, true));//Intake Override
         // secondaryController.getBButton().whileHeld(new IntakeBallCommand(robotSubsystems.intake, 0, robotSubsystems.conveyor, -0.5,robotSubsystems.elevator, 0.5, robotState.intake, true));//unjam
 
-        secondaryController.getDPadButton(Direction.UP).whileHeld(new ClimberCommand(robotSubsystems.climber, 1));
-        secondaryController.getDPadButton(Direction.DOWN).whileHeld(new ClimberCommand(robotSubsystems.climber, -1.0));
+        secondaryController.getDPadButton(Direction.UP).whileHeld(new ClimberCommand(robotSubsystems.climber, 1, robotState.climber));
+        secondaryController.getDPadButton(Direction.DOWN).whileHeld(new ClimberCommand(robotSubsystems.climber, -1.0, robotState.climber));
+        // secondaryController.getDPadButton(Direction.LEFT).whenPressed(new GoUpCommand(robotSubsystems.climber, robotState.climber, false, 300000, false));
         secondaryController.getBButton().toggleWhenPressed(new ClimberPneumaticsTestCommand(robotSubsystems.climber));
         secondaryController.getRightJoystickButton().toggleWhenPressed(new IntakePneumaticsTestCommand(robotSubsystems.intake));
         // secondaryController.getYButton().whenPressed(new GoUpCommand(robotSubsystems.climber, 300000)); // testing buttons
@@ -101,9 +102,9 @@ public class SwerveRobotContainer {
         /////////////////////////////////////////////////////////////////////////////////////////////////
         
         secondaryController.getAButton().whenPressed(new SequentialCommandGroup(
-            new PullDownCommand(robotSubsystems.climber, -0.6),
+            new PullDownCommand(robotSubsystems.climber, -0.6, robotState.climber),
             new GoUpCommand(robotSubsystems.climber, robotState.climber, false, 90000, false),
-            new GoUpCommand(robotSubsystems.climber, robotState.climber, false, 250000, false)//250000
+            new GoUpCommand(robotSubsystems.climber, robotState.climber, false, 250000, false)
         ));
         secondaryController.getXButton().whenPressed(new SequentialCommandGroup(
             new ClimberPneumaticsCommand(robotSubsystems.climber, robotState.climber, true),
@@ -160,7 +161,7 @@ public class SwerveRobotContainer {
         return primaryController.getLeftTriggerAxis();
     }
 
-    private Axis getPilotRightTriggerAxis() {
+    public Axis getPilotRightTriggerAxis() {
         return primaryController.getRightTriggerAxis();
     }
 

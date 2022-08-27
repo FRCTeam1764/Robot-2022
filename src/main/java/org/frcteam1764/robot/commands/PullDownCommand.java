@@ -4,6 +4,7 @@
 
 package org.frcteam1764.robot.commands;
 
+import org.frcteam1764.robot.state.ClimberState;
 import org.frcteam1764.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -12,10 +13,12 @@ public class PullDownCommand extends CommandBase {
   /** Creates a new ConveyorCommand. */
  private Climber climber;
  private double climberSpeed;
+ private ClimberState climberState;
 
-  public PullDownCommand(Climber climber, double climberSpeed) {
+  public PullDownCommand(Climber climber, double climberSpeed, ClimberState climberState) {
     this.climber = climber;
-    this.climberSpeed = climberSpeed; 
+    this.climberSpeed = climberSpeed;
+    this.climberState = climberState;
     addRequirements(climber);
   }
 
@@ -34,6 +37,7 @@ public class PullDownCommand extends CommandBase {
   public void end(boolean interrupted) {
     climber.climberOff();
     climber.resetFalcon();
+    climberState.resetZero();
   }
 
   // Returns true when the command should end.

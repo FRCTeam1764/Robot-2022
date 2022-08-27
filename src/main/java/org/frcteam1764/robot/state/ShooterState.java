@@ -112,6 +112,6 @@ public class ShooterState {
     }
 
     public boolean isReady() {
-        return actualTopRollerVelocity > assignedTopRollerVelocity && actualVelocity > assignedVelocity;
+        return actualTopRollerVelocity > (assignedTopRollerVelocity - 100) && actualVelocity > (assignedVelocity - 100);
     }
 }
